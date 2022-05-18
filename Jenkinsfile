@@ -12,6 +12,11 @@ pipeline {
                 bat 'mvn validate'
         }
     }
+        stage('commit') {
+            steps {
+                bat 'mvn commit'
+        }
+    }
         stage('package') {
             steps {
                 bat 'mvn clean package'
