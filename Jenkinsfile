@@ -9,27 +9,27 @@ pipeline {
         }
          stage('Build') {
             steps {
-                bat 'mvn validate'
+                sh 'mvn validate'
         }
     }
         stage('commit') {
             steps {
-                bat 'mvn commit'
+                sh 'mvn commit'
         }
     }
         stage('package') {
             steps {
-                bat 'mvn clean package'
+                sh 'mvn clean package'
         }
     }
      /*  stage('Test') {
             steps {
-                bat 'mvn test'
+                sh 'mvn test'
         }
     } */
          stage('Deploy') {
             steps {
-                bat 'mvn install tomcat7:deploy'
+                sh 'mvn install tomcat7:deploy'
         }
     }
      stage('Notification') {
