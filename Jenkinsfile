@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage('Checkout-git') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'devopsdeepdive2', url: 'https://github.com/devopsdeepdive/maven-web-project.git']]])
-                
+checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-ant', url: 'https://github.com/keletushar/maven-repo.git']]])                
             }
         }
          stage('Validate') {
