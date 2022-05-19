@@ -5,37 +5,43 @@ pipeline {
         stage('Checkout-git') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'devopsdeepdive2', url: 'https://github.com/devopsdeepdive/maven-web-project.git']]])
+                
             }
         }
-         stage('Build') {
+         stage('validate') {
             steps {
                 sh 'mvn validate'
         }
     }
-        stage('commit') {
+        stage('compile') {
             steps {
-                sh 'mvn commit'
+                sh 'mvn compile'
         }
     }
+              stage('Test') {
+            steps {
+                sh 'mvn test'
+        }
+    } 
         stage('package') {
             steps {
                 sh 'mvn clean package'
         }
     }
-     /*  stage('Test') {
-            steps {
-                sh 'mvn test'
-        }
-    } */
+ 
          stage('Deploy') {
             steps {
-                sh 'mvn install tomcat7:deploy'
+               sshagent(['tomcat-deploy']) {
+   sh "scp ssh -o StrictHostKeyChecking=no 
+	/var/lib/jenkins/workspace/maven-pipeline/target/maven-web-application.war ubuntu@172.31.0.116:/opt/apache-tomcat-9.0.63/webapps"
+
+}
         }
     }
-     stage('Notification') {
+   /*  stage('Notification') {
             steps {
                 slackSend channel: '#pipeline-jobs', color: 'good', iconEmoji: ':with:grin:', message: 'Build is succesful and deployed', tokenCredentialId: 'slack'
         }
-    }
+    } */
 }
 }
