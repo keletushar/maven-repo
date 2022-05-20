@@ -10,7 +10,7 @@ pipeline {
 checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'git-ant', url: 'https://github.com/keletushar/maven-repo.git']]])                
             }
         }
-         stage('Validate') {
+         stage('build') {
             steps {
                 sh 'mvn validate'
         }
